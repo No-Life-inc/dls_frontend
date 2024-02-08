@@ -1,0 +1,10 @@
+# Use the official MongoDB image from Docker Hub
+FROM mongo:latest
+
+# Set environment variables
+ENV MONGO_INITDB_ROOT_USERNAME=admin
+ENV MONGO_INITDB_ROOT_PASSWORD=P@ssw0rd1
+ENV MONGO_INITDB_DATABASE=frontend_db
+
+# Copy initialization script
+COPY init-db.js /docker-entrypoint-initdb.d/
