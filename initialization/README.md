@@ -11,4 +11,4 @@ When it has completed you can start a container:
 
 in MongoDB Compass access the server through:
 
-### 'mongodb://admin:P@ssw0rd1@localhost:27017/admin'
+### 'mongodb://admin:Passw0rd!@localhost:27017/admin'

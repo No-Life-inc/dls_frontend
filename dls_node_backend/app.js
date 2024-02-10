@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://admin:Passw0rd!@localhost:27017/frontend_db', {
+mongoose.connect('mongodb://admin:Passw0rd!@localhost:27017/frontend_db?authSource=admin', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
