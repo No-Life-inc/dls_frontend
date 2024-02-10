@@ -1,8 +1,11 @@
 import express from 'express';
 import mongoose from "mongoose";
+import cors from 'cors';
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
+app.use(cors());
+
 
 mongoose.connect('mongodb://admin:Passw0rd!@localhost:27017/frontend_db?authSource=admin', {
     useNewUrlParser: true,
