@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import PropTypes from 'prop-types';
 
 class Frontpage extends Component {
 
@@ -12,7 +11,5 @@ class Frontpage extends Component {
         );
     }
 }
-
-Frontpage.propTypes = {};
 
 export default Frontpage;
