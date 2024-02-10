@@ -3,7 +3,7 @@
 ## For Docker image:
 open terminal in initialization folder
 
-### 'run docker build -t frontend_db .'
+### 'docker build -t frontend_db .'
 
 When it has completed you can start a container:
 
