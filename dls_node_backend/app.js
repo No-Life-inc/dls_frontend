@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost:27017/frontend_db', {
+mongoose.connect('mongodb://admin:Passw0rd!@localhost:27017/frontend_db', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -18,11 +18,11 @@ const storySchema = new mongoose.Schema({
     imageUrl: String
 });
 
-const story = mongoose.model('story', storySchema);
+const story = mongoose.model('stories', storySchema);
 
 app.use(express.json());
 
-app.get('/story', async (req, res) => {
+app.get('/stories', async (req, res) => {
     try{
         const allStories = await story.find();
         res.json(allStories);
