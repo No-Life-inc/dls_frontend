@@ -3,3 +3,8 @@ export type Story={
     text: string,
     imageUrls: string,
 }
+
+export type Person={
+    id: string,
+    name: string,
+}
