@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Story, Person } from "../types/types";
+import { Story } from "../types/types";
 import { getAllStories } from "../graphql/queries";
 
 interface State {
     stories: Story[];
-    people: Person[];
 }
 
 class Frontpage extends Component<{}, State> {
@@ -12,7 +11,6 @@ class Frontpage extends Component<{}, State> {
         super(props);
         this.state = {
             stories: [],
-            people: [],
         };
     }
 
