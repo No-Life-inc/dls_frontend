@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Story } from "../types/types";
-import { getAllStories } from "../graphql/queries";
+import DisplayStories from './DisplayStories';
+
 
 interface State {
     stories: Story[];
@@ -14,25 +15,12 @@ class Frontpage extends Component<{}, State> {
         };
     }
 
-    componentDidMount() {
-        this.fetchStories();
-    }
-
-    fetchStories = async () => {
-        try {
-            const stories: Story[] = await getAllStories()
-            this.setState({ stories });
-        } catch (error) {
-            console.error('Failed to fetch stories:', error);
-        }
-    }
 
     render() {
-        const { stories } = this.state;
         return (
             <div>
                 <h1>Hi</h1>
-                
+                <DisplayStories/>
             </div>
         );
     }
