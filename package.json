@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "graphql": "^16.8.1",
-    "graphql-request": "^6.1.0",
-    "react-hook-form": "^7.50.1"
-  }
-}

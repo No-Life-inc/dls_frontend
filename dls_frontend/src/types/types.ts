@@ -1,7 +1,7 @@
 export type Story={
     title: string,
-    text: string,
-    imageUrls: string,
+    bodyText: string,
+    imageUrl: string,
 }
 
 export type Person={
