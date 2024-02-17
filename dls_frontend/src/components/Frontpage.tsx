@@ -32,11 +32,7 @@ class Frontpage extends Component<{}, State> {
         return (
             <div>
                 <h1>Hi</h1>
-                <ul>
-                    {stories.map(story => (
-                        <li key={story.title}>{story.bodyText} - {story.imageUrl}</li>
-                    ))}
-                </ul>
+                
             </div>
         );
     }
