@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Story } from "../types/types";
 import DisplayStories from './DisplayStories';
+import CreateStory from './CreateStory';
 
 
 interface State {
@@ -21,6 +22,7 @@ class Frontpage extends Component<{}, State> {
             <div>
                 <h1>Hi</h1>
                 <DisplayStories/>
+                <CreateStory/>
             </div>
         );
     }
