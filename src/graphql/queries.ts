@@ -5,8 +5,8 @@ export const GETALLSTORIES = gql`
     getAllStories {
       id
       title
-      bodyText
-      imgUrl
+      body_text
+      img_url
     }
   }
 `;

@@ -1,6 +1,6 @@
 export type Story={
     id: string,
     title: string,
-    bodyText: string,
-    imageUrl: string,
+    body_text: string,
+    image_url: string,
 }
