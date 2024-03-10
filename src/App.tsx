@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Frontpage from "./components/Frontpage";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
@@ -18,6 +19,7 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/" element={<Frontpage />} />
           </Routes>
         </Router>
