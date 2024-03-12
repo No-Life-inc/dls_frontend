@@ -19,9 +19,9 @@ The repo is divided into folders with the respective responsibilities within the
 ## Environment Variables
 Create a .env in the root folder.
 
-- PORT: 8080
-- GRAPHQLURL: http://localhost:4000/graphql
-- WRITEAPIURL: http://localhost:3000
+- PORT=8080
+- GRAPHQLURL=http://localhost:4000/graphql
+- WRITEAPIURL=http://localhost:3000
 
 
 ## How To Run
