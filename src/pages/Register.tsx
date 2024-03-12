@@ -49,8 +49,6 @@ const RegisterComponent: React.FC = () => {
 
   return (
     <div>
-      <br/>
-      <br/>
       {registrationComplete ? (
         <div>
           <h2>Registration successful!</h2>

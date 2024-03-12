@@ -1,27 +1,46 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../stylesheets/navbar.css"
+import "../styles/navbar.css";
+import {Link} from "react-router-dom"
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  isLoggedIn: boolean;
+  onLogout: () => void;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
+  const handleLogin = () => {
+    // Redirect to login page
+    window.location.href = "/login";
+  };
+
+  const handleRegister = () => {
+    // Redirect to register page
+    window.location.href = "/register";
+  };
+
   return (
-    <nav className="navbar">
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-        <li>
-            <Link to="/register">Register</Link>
-        </li>
-        <li>
-            <Link to="/login">Login</Link>
-        </li>
-      </ul>
+    <nav>
+      <div className="navbar-left">
+        <Link className="home" to="/">
+          Home
+        </Link>
+        <Link className="about" to="/about">
+          About
+        </Link>
+        {isLoggedIn && <Link to="/profile">Profile</Link>}
+      </div>
+      <div className="navbar-right">
+        {isLoggedIn ? (
+          <>
+            <button onClick={onLogout}>Logout</button>
+          </>
+        ) : (
+          <div className="login-container">
+            <button onClick={handleLogin}>Login</button>
+            <button onClick={handleRegister}>Register</button>
+          </div>
+        )}
+      </div>
     </nav>
   );
 };

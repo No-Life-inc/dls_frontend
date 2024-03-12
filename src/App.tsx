@@ -1,9 +1,10 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Frontpage from "./components/Frontpage";
-import Register from "./components/Register";
+import Frontpage from "./pages/Frontpage";
+import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
-import Login from "./components/Login";
+import Login from "./pages/Login";
+import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 const client = new ApolloClient({
@@ -11,21 +12,30 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-function App() {
+const App: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+  };
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
-    <div className="App">
-      <ApolloProvider client={client}>
-        <Router>
-          <Navbar />
-          <Routes>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Frontpage />} />
-          </Routes>
-        </Router>
-      </ApolloProvider>
-    </div>
+    <ApolloProvider client={client}>
+      <Router>
+        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+        <Routes>
+          <Route path="/" element={<Frontpage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+        </Routes>
+      </Router>
+    </ApolloProvider>
   );
-}
+};
 
 export default App;

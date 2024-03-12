@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
 import App from "./App";
-import Frontpage from "./components/Frontpage";
+import Frontpage from "./pages/Frontpage";
 //import Middleware from "./Middleware";
 
 //TODO: Add middleware

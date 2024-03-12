@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 
+interface LoginPageProps {
+  onLogin: () => void;
+}
+
 interface LoginData {
   email: string;
   password: string;
 }
 
-const LoginComponent: React.FC = () => {
+const LoginComponent: React.FC<LoginPageProps> = ({onLogin}) => {
   const [loginData, setLoginData] = useState<LoginData>({
     email: "",
     password: "",
@@ -46,8 +50,6 @@ const LoginComponent: React.FC = () => {
 
   return (
     <div>
-      <br />
-      <br />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
