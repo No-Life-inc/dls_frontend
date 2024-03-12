@@ -1,9 +1,10 @@
 import React,{useState} from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Frontpage from "./pages/Frontpage";
-import Register from "./pages/Register";
+import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
-import Login from "./pages/Login";
+import LoginPage from "./pages/LoginPage";
+import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -30,8 +31,12 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<Frontpage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/profile"
+            element={<ProfilePage isLoggedIn={isLoggedIn} />}
+          />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
         </Routes>
       </Router>
     </ApolloProvider>

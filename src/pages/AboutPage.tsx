@@ -1,5 +1,6 @@
-import { AuthContext } from "../utils/AuthContext";
 import React, { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../utils/AuthContext";
+
 
 const AboutPage: React.FC = () => {
   const authContext = useContext(AuthContext);
