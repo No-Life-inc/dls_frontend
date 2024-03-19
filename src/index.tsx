@@ -4,6 +4,9 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+/**
+ *  Renders the App component to the root element in the HTML file.
+ */
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );

@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+/***
+ * This component allows users to create a new story.
+ * It contains a form with input fields for the story title, body text, image URL, and user GUID.
+ */
 const CreateStory = () => {
   const [title, setTitle] = useState('');
   const [bodyText, setBodyText] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [userGuid, setUserGuid] = useState('');
 
-
+/***
+ *  This function is called when the form is submitted. It sends a POST request to the REST API to create a new story.
+ */
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -45,6 +51,9 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       });
   };
 
+  /***
+   *  This function returns a form that allows users to create a new story.
+   */
   return (
     <form onSubmit={handleSubmit}>
       <label>

@@ -3,7 +3,9 @@ import { Story } from '../types/types'
 import { GETALLSTORIES } from "../graphql/queries";
 import {useQuery} from '@apollo/client';
 
-
+/***
+ * This component displays a list of stories.
+ */
 const DisplayStories = () =>{
     const { loading, error, data } = useQuery(GETALLSTORIES);
     const [stories, setStories] = useState<Story[]>([]);
