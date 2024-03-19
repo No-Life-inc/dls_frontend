@@ -2,17 +2,30 @@ import React from "react";
 import "../styles/navbar.css";
 import {Link} from "react-router-dom"
 
+/**
+ * Props interface for Navbar component
+ */
 interface NavbarProps {
-  isLoggedIn: boolean;
-  onLogout: () => void;
+  isLoggedIn: boolean; // Indicates wether a user is logged in or not
+  onLogout: () => void; // Callback function to handle logout event
 }
 
+/**
+ * Functional component representing the navigation bar
+ * @param {NavbarProps} param Props for the Navbar component 
+ * @returns TSX element representing the navigation bar
+ */
 const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
   const handleLogin = () => {
-    // Redirect to login page
+    /**
+     * Redirects the user to the login page
+     */
     window.location.href = "/login";
   };
 
+  /**
+   * Redirects the user to the register page
+   */
   const handleRegister = () => {
     // Redirect to register page
     window.location.href = "/register";
