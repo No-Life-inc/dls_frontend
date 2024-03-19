@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { config } from 'dotenv';
+
+config();
+
+const REST_API_URL = process.env.RESTAPIURL;
 
 /***
  * This component allows users to create a new story.
@@ -29,7 +34,7 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     };
 
     // Send a POST request to the REST API
-    fetch('http://localhost:3000/stories', {
+    fetch(`${REST_API_URL}/stories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

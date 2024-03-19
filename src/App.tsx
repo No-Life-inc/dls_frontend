@@ -1,14 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Frontpage from "./components/Frontpage";
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { config } from 'dotenv';
 
-/**
- * ApolloClient instance for connecting to the GraphQL server.
- */
+config();
+
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', // replace with your GraphQL server URI
+  uri: process.env.GRAPHQLURL, // use the GRAPHQLURL environment variable
   cache: new InMemoryCache()
 });
 
