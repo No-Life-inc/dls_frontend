@@ -7,9 +7,6 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { config } from 'dotenv';
-
-config();
 
 const client = new ApolloClient({
   uri: process.env.GRAPHQLURL, // use the GRAPHQLURL environment variable
@@ -21,11 +18,6 @@ const client = new ApolloClient({
  * Renders the Frontpage component wrapped in ApolloProvider for GraphQL support.
  * @returns JSX element representing the entire application
  */
-function App() {
-const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', // Udskift med din GraphQL-server URI
-  cache: new InMemoryCache()
-});
 
 const App: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -56,5 +48,4 @@ const App: React.FC = () => {
     </ApolloProvider>
   );
 };
-}
 export default App;

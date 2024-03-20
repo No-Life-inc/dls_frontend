@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../utils/AuthContext";
 
 
@@ -6,7 +6,7 @@ const AboutPage: React.FC = () => {
   const authContext = useContext(AuthContext);
 
   // Check if authContext is defined, otherwise provide a default value
-  const isLoggedIn = authContext?.isLoggedIn ?? false;
+  //const isLoggedIn = authContext?.isLoggedIn ?? false;
   
     return (
         <div>
