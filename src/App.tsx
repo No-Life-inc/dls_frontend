@@ -1,16 +1,17 @@
-import React,{useState} from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Frontpage from "./pages/Frontpage";
 import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import AboutPage from './pages/AboutPage';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
+import AboutPage from "./pages/AboutPage";
+import { AuthProvider } from "./utils/AuthContext";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+console.log("GRAPHQLURL:", process.env.GRAPHQLURL);
 const client = new ApolloClient({
-  uri: process.env.GRAPHQLURL, // use the GRAPHQLURL environment variable
-  cache: new InMemoryCache()
+  uri: "http://localhost:4000/graphql", // use the GRAPHQLURL environment variable
+  cache: new InMemoryCache(),
 });
 
 /**
@@ -32,19 +33,21 @@ const App: React.FC = () => {
 
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
-        <Routes>
-          <Route path="/" element={<Frontpage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route
-            path="/profile"
-            element={<ProfilePage isLoggedIn={isLoggedIn} />}
-          />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-        </Routes>
-      </Router>
+      <AuthProvider>
+        <Router>
+          <Navbar isLoggedIn={isLoggedIn} onLogout={handleLogout} />
+          <Routes>
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/" element={<Frontpage />} />
+            <Route
+              path="/profile"
+              element={<ProfilePage isLoggedIn={isLoggedIn} />}
+            />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </ApolloProvider>
   );
 };
