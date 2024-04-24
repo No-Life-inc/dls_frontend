@@ -14,11 +14,11 @@ import EditStory from './EditStory';
 const DisplayStories = () =>{
     const token = localStorage.getItem("token");
     const { loading, error, data } = useQuery(GETALLSTORIES, {
-        context: {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
+      context: {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
+      },
     });
     const { isLoggedIn } = useContext(AuthContext);
     const [stories, setStories] = useState<Story[]>([]);
