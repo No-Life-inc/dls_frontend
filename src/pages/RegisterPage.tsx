@@ -20,7 +20,7 @@ const RegisterComponent: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:5012/register", {
+      const response = await fetch(process.env.REACT_APP_AUTHURL + "/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

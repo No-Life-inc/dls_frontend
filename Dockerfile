@@ -19,5 +19,5 @@ RUN npm run build
 # Install serve to serve the static files
 RUN npm install -g serve
 
-# Serve the build directory on port 3001
-CMD ["serve", "-s", "build", "-l", "3001"]
+# Serve the build directory on port 8080
+CMD ["serve", "-s", "build", "-l", "8080"]
