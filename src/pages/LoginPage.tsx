@@ -15,7 +15,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch("http://localhost:5012/login", {
+      const response = await fetch("http://localhost:5012/v1/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
