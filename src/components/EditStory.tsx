@@ -14,7 +14,7 @@ interface EditStoryProps {
       event.preventDefault();
   
       try {
-        await updateStory(story._id, bodyText, imgUrl); // use the function
+        await updateStory(story.storyGuid, bodyText, imgUrl); // use the function
       } catch (error) {
         console.error(error);
       }

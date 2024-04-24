@@ -3,6 +3,7 @@
  */
 export type Story={
     _id: string,
+    storyGuid: string,
     storyInfo: StoryInfo,
     comments: Comment[],
     reactions: Reaction[],
@@ -16,6 +17,7 @@ export type StoryInfo={
 
 export type Comment={
     _id: string,
+    commentGuid: string,
     commentInfo: CommentInfo,
     createdAt: string,
 }
@@ -37,6 +39,7 @@ export type ReactionType={
 
 export type User={
     _id: string,
+    userGuid: string,
     username: string,
     email: string,
 }
