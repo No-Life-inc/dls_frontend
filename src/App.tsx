@@ -8,8 +8,10 @@ import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
+console.log(process.env.REACT_APP_GRAPHQLURL);
+
 const client = new ApolloClient({
-  uri: process.env.GRAPHQLURL, // use the GRAPHQLURL environment variable
+  uri: process.env.REACT_APP_GRAPHQLURL, // use the GRAPHQLURL environment variable
   cache: new InMemoryCache()
 });
 

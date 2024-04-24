@@ -23,9 +23,11 @@ const DisplayStories = () =>{
     <div>
     <div>Display Stories Component</div>
                 <ul>
-                    {stories.map((story: Story) => (
-                        <li key={story.title}>{story.body_text} - {story.image_url}</li>
-                    ))}
+                {stories.map((story: Story) => (
+    <li key={story._id}>
+        {story.storyInfo?.bodyText} - {story.storyInfo?.imgUrl}
+    </li>
+))}
                 </ul>
                 </div>
   )
