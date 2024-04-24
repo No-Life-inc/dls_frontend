@@ -1,59 +1,55 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Story } from "../types/types";
 import { GETALLSTORIES } from "../graphql/queries";
-import { useQuery } from "@apollo/client";
-import { useContext } from "react";
 import { AuthContext } from "../utils/AuthContext";
+import {useQuery} from '@apollo/client';
+import EditStory from './EditStory';
+
 
 /***
  * This component displays a list of stories.
  */
-const DisplayStories = () => {
-  const token = localStorage.getItem("token");
-  const { isLoggedIn } = useContext(AuthContext);
-  const [stories, setStories] = useState<Story[]>([]);
 
-  const { loading, error, data } = useQuery(GETALLSTORIES, {
-    context: {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-    skip: !token, // Skip the query if there's no token
-  });
 
-  useEffect(() => {
-    if (data) {
-      setStories(data.getAllStories);
+const DisplayStories = () =>{
+    const token = localStorage.getItem("token");
+    const { loading, error, data } = useQuery(GETALLSTORIES);
+    const { isLoggedIn } = useContext(AuthContext);
+    const [stories, setStories] = useState<Story[]>([]);
+    const [editingStory, setEditingStory] = useState<Story | null>(null);
+    
+    useEffect(() => {
+      if (data) {
+        setStories(data.getAllStories);
+      }
+    }, [data]);
+
+    if (!isLoggedIn || !token) {
+      return <p>You must be logged in to view stories.</p>;
     }
-  }, [data, error]);
+    
+    if (loading) return <p>"Loading..."</p>;
+    if (error) return <p>Error : {error.message}</p>; 
 
-  if (!isLoggedIn || !token) {
-    return <p>You must be logged in to view stories.</p>;
-  }
-
-  if (loading) {
-    return <p>"Loading..."</p>;
-  }
-
-  if (error) {
-    localStorage.removeItem("token");
-    return <p>Error : {error.message}</p>;
-  }
+    const handleEdit = (story: Story) => {
+      setEditingStory(story);
+    };
 
   return (
     <div>
-      <div>Display Stories Component</div>
-      <ul>
-        {stories.map((story: Story) => (
-          <li key={story.storyInfo.title}>
-            {story.storyInfo.bodyText} - {story.storyInfo.imgUrl}
-          </li>
-        ))}
-      </ul>
+    <div>Display Stories Component</div>
+                <ul>
+                {stories.map((story: Story) => (
+    <li key={story._id}>
+        {story.storyInfo?.bodyText} - {story.storyInfo?.imgUrl}
+        <button onClick={() => handleEdit(story)}>Edit</button>
+    </li>
+    ))}
+    </ul>
+    {editingStory && <EditStory story={editingStory}/>}
     </div>
-  );
-};
+  )
+}
 
 
 DisplayStories.propTypes = {};
