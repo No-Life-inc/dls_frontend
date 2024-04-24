@@ -26,12 +26,14 @@ export async function apiRequest(endpoint: string, method: string, body: any, to
     }
   }
 
-  export async function updateStory(storyId: string, bodyText: string, imgUrl: string, token: string | null = null) {
+  export async function updateStory(storyGuid: string, bodyText: string, imgUrl: string, token: string | null = null) {
     try {
-      const data = await apiRequest(`/stories/${storyId}`, 'PUT', {
-        id: storyId,
+      const data = await apiRequest(`/stories/${storyGuid}`, 'PUT', {
+      storyGuid: storyGuid,
+      storyInfo: {
         bodyText,
         imgUrl,
+      },
       }, token );
       return data;
     } catch (error) {
