@@ -5,13 +5,15 @@ import RegisterPage from "./pages/RegisterPage";
 import Navbar from "./components/Navbar";
 import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
-import AboutPage from "./pages/AboutPage";
-import { AuthProvider } from "./utils/AuthContext";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-console.log("GRAPHQLURL:", process.env.GRAPHQLURL);
+import AboutPage from './pages/AboutPage';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { AuthProvider } from './utils/AuthContext';
+
+console.log(process.env.REACT_APP_GRAPHQLURL);
+
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql", // use the GRAPHQLURL environment variable
-  cache: new InMemoryCache(),
+  uri: process.env.REACT_APP_GRAPHQLURL, // use the GRAPHQLURL environment variable
+  cache: new InMemoryCache()
 });
 
 /**

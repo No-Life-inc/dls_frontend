@@ -13,11 +13,19 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+ARG REACT_APP_AUTHURL
+ARG REACT_APP_GRAPHQLURL
+ARG REACT_APP_WRITEAPIURL
+
+ENV REACT_APP_AUTHURL=$REACT_APP_AUTHURL
+ENV REACT_APP_GRAPHQLURL=$REACT_APP_GRAPHQLURL
+ENV REACT_APP_WRITEAPIURL=$REACT_APP_WRITEAPIURL
+
 # Build the React app
 RUN npm run build
 
 # Install serve to serve the static files
 RUN npm install -g serve
 
-# Serve the build directory on port 3001
-CMD ["serve", "-s", "build", "-l", "3001"]
+# Serve the build directory on port 8080
+CMD ["serve", "-s", "build", "-l", "8080"]

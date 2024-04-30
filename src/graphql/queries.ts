@@ -7,10 +7,24 @@ export const GETALLSTORIES = gql`
 query GetAllStories {
   getAllStories {
     _id
+    storyGuid
     storyInfo {
       bodyText
+      createdAt
       imgUrl
-      title
+    }
+    comments {
+      commentInfo {
+        bodyText
+        createdAt
+      }
+      createdAt
+    }
+    reactions {
+      reactionType {
+        reactionTypeImg
+        reactionTypeName
+      }
     }
   }
 }

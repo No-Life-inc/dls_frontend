@@ -34,7 +34,7 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     };
 
     // Send a POST request to the REST API
-    fetch(`http://localhost:3000/stories`, {
+    fetch(`http://localhost:3000/v1/stories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
