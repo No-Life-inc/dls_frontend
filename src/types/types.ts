@@ -13,6 +13,7 @@ export type StoryInfo={
     bodyText: string,
     createdAt: string,
     imgUrl: string,
+    title: string,
 }
 
 export type Comment={

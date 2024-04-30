@@ -14,7 +14,6 @@ query GetAllStories {
       imgUrl
     }
     comments {
-      commentGuid
       commentInfo {
         bodyText
         createdAt
@@ -27,8 +26,6 @@ query GetAllStories {
         reactionTypeName
       }
     }
-    
   }
 }
-
 `;
