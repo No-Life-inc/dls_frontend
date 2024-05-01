@@ -26,14 +26,18 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
     // Create a new story object
     const newStory = {
-      story_guid: storyGuid,
-      title,
-      body_text: bodyText,
-      img_url: imgUrl,
-      user_guid: userGuid,
-    };
-
-    // Send a POST request to the REST API
+      storyGuid: storyGuid,
+      createdAt: new Date().toISOString(),
+      user: {
+        userGuid: userGuid,
+      },
+      storyInfo: {
+        title: title,
+        bodyText: bodyText,
+        imgUrl: imgUrl,
+      }
+    }
+    console.log(newStory);
     fetch(`http://localhost:3000/v1/stories`, {
       method: 'POST',
       headers: {
