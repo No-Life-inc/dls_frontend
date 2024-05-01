@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../utils/AuthContext";
+import EditUserInfo from "../components/EditUserInfo";
 
 interface ProfilePageProps {
   isLoggedIn: boolean;
@@ -9,9 +10,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isLoggedIn }) => {
   const token = localStorage.getItem("token");
   console.log("Token:", token);
   const { setLoggedIn } = useContext(AuthContext);
-  const [userData, setUserData] = useState<{
-    id: string;
-  } | null>(null);
+  const [userData, setUserData] = useState<{ id: string } | null>(null);
+  const [isEditing, setIsEditing] = useState(false); // Add isEditing state
 
   useEffect(() => {
     if (isLoggedIn && token) {
@@ -27,6 +27,8 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isLoggedIn }) => {
           {userData ? (
             <div>
               <p>User ID: {userData.id}</p>
+              <button onClick={() => setIsEditing(true)}>Edit User Info</button> {/* Add Edit User Info button */}
+              {isEditing && <EditUserInfo setIsEditing={setIsEditing} />} {/* Show EditUserInfo component when isEditing is true */}
             </div>
           ) : (
             <p>Loading...</p>

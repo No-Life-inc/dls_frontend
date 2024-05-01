@@ -41,7 +41,8 @@ export type ReactionType={
 export type User={
     _id: string,
     userGuid: string,
-    username: string,
+    firstName: string,
+    lastName: string,
     email: string,
 }
 
