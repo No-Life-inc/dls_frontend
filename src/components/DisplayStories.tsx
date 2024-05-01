@@ -10,7 +10,8 @@ import CreateComment from "./CreateComment";
  * This component displays a list of stories.
  */
 const DisplayStories = () => {
-    const token = localStorage.getItem("token");
+    const { token, isLoggedIn } = useContext(AuthContext); 
+
     const {loading, error, data} = useQuery(GETALLSTORIES, {
         context: {
             headers: {
@@ -18,7 +19,7 @@ const DisplayStories = () => {
             },
         },
     });
-    const {isLoggedIn} = useContext(AuthContext);
+
     const [stories, setStories] = useState<Story[]>([]);
     const [editingStory, setEditingStory] = useState<Story | null>(null);
     const [commentFormVisibility, setCommentFormVisibility] = useState<boolean[]>([]);
@@ -45,7 +46,6 @@ const DisplayStories = () => {
     }
 
     if (error) {
-        localStorage.removeItem("token");
         return <p>Error : {error.message}</p>;
     }
 

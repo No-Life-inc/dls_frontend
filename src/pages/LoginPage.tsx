@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
+import { apiRequest } from "../api/apiFunctions";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -9,30 +10,22 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn } = useContext(AuthContext);
+  const { setLoggedIn, setUser, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const response = await fetch(process.env.REACT_APP_AUTHURL + "/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const data = await apiRequest("auth","/login", "POST", { email, password });
 
-      if (!response.ok) {
-        throw new Error("Login failed");
-      }
-
-      const data = await response.json();
       const token = data.token;
+      const user = data.user; 
       console.log("JWT token:", token);
 
       // Store the token temporarily
-      localStorage.setItem("token", token);
+      setToken(token)
+
+      setUser(user); // Save user data in context
 
       console.log("Login successful");
       setLoggedIn(true);
