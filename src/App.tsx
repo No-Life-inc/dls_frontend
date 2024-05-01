@@ -8,7 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { AuthProvider, AuthContext } from './utils/AuthContext';
-import { set } from "react-hook-form";
+
 
 // console.log(process.env.REACT_APP_GRAPHQLURL);
 
