@@ -8,6 +8,7 @@ import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { AuthProvider, AuthContext } from './utils/AuthContext';
+import { set } from "react-hook-form";
 
 // console.log(process.env.REACT_APP_GRAPHQLURL);
 
@@ -23,14 +24,14 @@ const client = new ApolloClient({
  */
 
 const App: React.FC = () => {
-  const { setUser } = useContext(AuthContext); // Get setUser from context
+  const { setUser, setToken } = useContext(AuthContext); // Get setUser from context
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUser(null); // Remove user data on logout
-    localStorage.removeItem("token"); // Also remove the token from local storage
+    setToken(null); // Remove token on logout
   };
 
   const handleLogin = () => {

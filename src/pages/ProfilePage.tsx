@@ -7,9 +7,8 @@ interface ProfilePageProps {
 }
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ isLoggedIn }) => {
-  const token = localStorage.getItem("token");
+  const { setLoggedIn, token } = useContext(AuthContext);
   console.log("Token:", token);
-  const { setLoggedIn } = useContext(AuthContext);
   const [userData, setUserData] = useState<{ id: string } | null>(null);
   const [isEditing, setIsEditing] = useState(false); // Add isEditing state
 

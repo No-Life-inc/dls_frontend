@@ -10,7 +10,7 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setLoggedIn, setUser } = useContext(AuthContext);
+  const { setLoggedIn, setUser, setToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -19,11 +19,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       const data = await apiRequest("auth","/login", "POST", { email, password });
 
       const token = data.token;
-      const user = data.user; // Assuming the user data is returned in the 'user' field
+      const user = data.user; 
       console.log("JWT token:", token);
 
       // Store the token temporarily
-      localStorage.setItem("token", token);
+      setToken(token)
 
       setUser(user); // Save user data in context
 
