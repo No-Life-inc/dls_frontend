@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Frontpage from "./pages/Frontpage";
 import RegisterPage from "./pages/RegisterPage";
@@ -7,9 +7,9 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import AboutPage from './pages/AboutPage';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import { AuthProvider } from './utils/AuthContext';
+import { AuthProvider, AuthContext } from './utils/AuthContext';
 
-console.log(process.env.REACT_APP_GRAPHQLURL);
+// console.log(process.env.REACT_APP_GRAPHQLURL);
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_GRAPHQLURL, // use the GRAPHQLURL environment variable
@@ -23,10 +23,14 @@ const client = new ApolloClient({
  */
 
 const App: React.FC = () => {
+  const { setUser } = useContext(AuthContext); // Get setUser from context
+
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUser(null); // Remove user data on logout
+    localStorage.removeItem("token"); // Also remove the token from local storage
   };
 
   const handleLogin = () => {
