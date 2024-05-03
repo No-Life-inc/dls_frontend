@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import { apiRequest } from "../api/apiFunctions";
+import { HttpMethod } from "../types/types";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -16,7 +17,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      const data = await apiRequest("auth","/login", "POST", { email, password });
+      const data = await apiRequest("auth","/login", HttpMethod.POST, { email, password });
 
       const token = data.token;
       const user = data.user; 

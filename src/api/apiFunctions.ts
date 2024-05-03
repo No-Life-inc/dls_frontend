@@ -1,4 +1,6 @@
-export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, method: string, body: any, token: string | null = null) {
+import { HttpMethod } from '../types/types';
+
+export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, method: HttpMethod, body: any, token: string | null = null) {
   try {
     const headers: { [key: string]: string } = {
       'Content-Type': 'application/json',
@@ -31,7 +33,7 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
 
   export async function updateStory(storyGuid: string, bodyText: string, imgUrl: string, token: string | null = null) {
     try {
-      const data = await apiRequest( "write",`/stories/${storyGuid}`, 'PUT', {
+      const data = await apiRequest( "write",`/stories/${storyGuid}`, HttpMethod.PUT, {
       storyGuid: storyGuid,
       storyInfo: {
         bodyText,

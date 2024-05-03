@@ -39,7 +39,6 @@ export type ReactionType={
 }
 
 export type User={
-    _id: string,
     userGuid: string,
     firstName: string,
     lastName: string,
@@ -51,3 +50,10 @@ export type UserInput={
     email: string,
     password: string,
 }
+
+export enum HttpMethod {
+    GET = "GET",
+    POST = "POST",
+    PUT = "PUT",
+    DELETE = "DELETE",
+  }
