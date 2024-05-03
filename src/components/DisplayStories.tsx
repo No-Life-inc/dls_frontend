@@ -12,6 +12,8 @@ import CreateComment from "./CreateComment";
 const DisplayStories = () => {
     const { token, isLoggedIn } = useContext(AuthContext); 
 
+    const cdnUrl = process.env.REACT_APP_CDNURL;
+
     const {loading, error, data} = useQuery(GETALLSTORIES, {
         context: {
             headers: {
@@ -59,10 +61,11 @@ const DisplayStories = () => {
         <ul>
           {stories.map((story: Story, index: number) => (
               <li key={story.storyInfo.title}>
-                {story.storyInfo.bodyText} - {story.storyInfo.imgUrl}
-                <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
-                {commentFormVisibility[index] && <CreateComment {...story}  />}
-              </li>
+              {story.storyInfo.bodyText}
+              <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} /> {/* Display the image */}
+              <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
+              {commentFormVisibility[index] && <CreateComment {...story}  />}
+            </li>
           ))}
         </ul>
           {editingStory && <EditStory story={editingStory}/>}
