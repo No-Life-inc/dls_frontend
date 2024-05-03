@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../utils/AuthContext";
 import { apiRequest } from "../api/apiFunctions";
-import { HttpMethod } from "../types/types";
+import { HttpMethod, User } from "../types/types";
 
 interface LoginPageProps {
   onLogin: () => void;
@@ -20,7 +20,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
       const data = await apiRequest("auth","/login", HttpMethod.POST, { email, password });
 
       const token = data.token;
-      const user = data.user; 
+      const user: User = data.user; 
       console.log("JWT token:", token);
 
       // Store the token temporarily

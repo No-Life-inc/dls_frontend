@@ -24,8 +24,6 @@ const DisplayStories = () => {
         },
     });
 
-    console.log(user?.userGuid)
-
     const [stories, setStories] = useState<Story[]>([]);
     const [editingStory, setEditingStory] = useState<Story | null>(null);
     const [commentFormVisibility, setCommentFormVisibility] = useState<boolean[]>([]);
@@ -67,7 +65,6 @@ const DisplayStories = () => {
           console.error('Failed to delete story:', error);
         }
       };
-    
 
     return (
       <div>
@@ -78,7 +75,7 @@ const DisplayStories = () => {
               {story.storyInfo.bodyText}
               <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} /> {/* Display the image */}
               <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
-              {story.user && user && story.user.userGuid === user.userGuid && (
+              {story.user && user && story.user.userGuid === user.userGuid.toLocaleUpperCase() && (
                 <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
                 )}
               {commentFormVisibility[index] && <CreateComment {...story}  />}

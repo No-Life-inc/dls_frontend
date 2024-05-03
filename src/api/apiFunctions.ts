@@ -22,7 +22,12 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
       throw new Error('Network response was not ok');
     }
 
-    const data = await response.json();
+    // Only attempt to parse the response body as JSON if there is a response body
+    let data = null;
+    if (response.status !== 204) {
+      data = await response.json();
+    }
+    
     return data;
   } catch (error) {
     console.error('Error:', error);
