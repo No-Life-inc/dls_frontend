@@ -5,12 +5,16 @@ import {useQuery} from "@apollo/client";
 import {AuthContext} from "../utils/AuthContext";
 import EditStory from './EditStory';
 import CreateComment from "./CreateComment";
+import {deleteStory} from '../api/apiFunctions';
 
 /***
  * This component displays a list of stories.
- */
+*/
 const DisplayStories = () => {
+    const { user } = useContext(AuthContext);
     const { token, isLoggedIn } = useContext(AuthContext); 
+
+    const cdnUrl = process.env.REACT_APP_CDNURL;
 
     const {loading, error, data} = useQuery(GETALLSTORIES, {
         context: {
@@ -19,6 +23,8 @@ const DisplayStories = () => {
             },
         },
     });
+
+    console.log(user?.userGuid)
 
     const [stories, setStories] = useState<Story[]>([]);
     const [editingStory, setEditingStory] = useState<Story | null>(null);
@@ -53,16 +59,30 @@ const DisplayStories = () => {
         setEditingStory(story);
     };
 
+    const handleDelete = async (storyGuid: string) => {
+        try {
+          await deleteStory(storyGuid, token);
+          setStories(stories.filter(story => story.storyGuid !== storyGuid));
+        } catch (error) {
+          console.error('Failed to delete story:', error);
+        }
+      };
+    
+
     return (
       <div>
         <div>Display Stories Component</div>
         <ul>
           {stories.map((story: Story, index: number) => (
               <li key={story.storyInfo.title}>
-                {story.storyInfo.bodyText} - {story.storyInfo.imgUrl}
-                <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
-                {commentFormVisibility[index] && <CreateComment {...story}  />}
-              </li>
+              {story.storyInfo.bodyText}
+              <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} /> {/* Display the image */}
+              <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
+              {story.user && user && story.user.userGuid === user.userGuid && (
+                <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
+                )}
+              {commentFormVisibility[index] && <CreateComment {...story}  />}
+            </li>
           ))}
         </ul>
           {editingStory && <EditStory story={editingStory}/>}

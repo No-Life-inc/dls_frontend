@@ -46,3 +46,13 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
       throw error;
     }
   }
+
+  export async function deleteStory(storyGuid: string, token: string | null = null) {
+    try {
+      const data = await apiRequest( "write",`/stories/${storyGuid}`, HttpMethod.DELETE, {}, token );
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }

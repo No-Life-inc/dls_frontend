@@ -7,6 +7,7 @@ export type Story={
     storyInfo: StoryInfo,
     comments: Comment[],
     reactions: Reaction[],
+    user: User,
 }
 
 export type StoryInfo={
