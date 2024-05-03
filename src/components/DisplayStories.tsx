@@ -14,6 +14,8 @@ const DisplayStories = () => {
     const { user } = useContext(AuthContext);
     const { token, isLoggedIn } = useContext(AuthContext); 
 
+    const cdnUrl = process.env.REACT_APP_CDNURL;
+
     const {loading, error, data} = useQuery(GETALLSTORIES, {
         context: {
             headers: {
@@ -71,16 +73,17 @@ const DisplayStories = () => {
       <div>
         <div>Display Stories Component</div>
         <ul>
-            {stories.map((story: Story, index: number) => (
-                    <li key={story.storyInfo.title}>
-                        {story.storyInfo.bodyText} - {story.storyInfo.imgUrl}
-                        <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
-                        {story.user && user && story.user.userGuid === user.userGuid && (
-                                <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
-                                )}
-                        {commentFormVisibility[index] && <CreateComment {...story}  />}
-                    </li>
-            ))}
+          {stories.map((story: Story, index: number) => (
+              <li key={story.storyInfo.title}>
+              {story.storyInfo.bodyText}
+              <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} /> {/* Display the image */}
+              <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
+              {story.user && user && story.user.userGuid === user.userGuid && (
+                <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
+                )}
+              {commentFormVisibility[index] && <CreateComment {...story}  />}
+            </li>
+          ))}
         </ul>
           {editingStory && <EditStory story={editingStory}/>}
       </div>

@@ -1,7 +1,8 @@
 import React from "react";
+import { useContext } from "react";
 import "../styles/navbar.css";
 import {Link} from "react-router-dom"
-
+import { AuthContext } from "../utils/AuthContext";
 /**
  * Props interface for Navbar component
  */
@@ -16,6 +17,8 @@ interface NavbarProps {
  * @returns TSX element representing the navigation bar
  */
 const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
+  const { user } = useContext(AuthContext); // Get user from context
+
   const handleLogin = () => {
     /**
      * Redirects the user to the login page
@@ -40,7 +43,12 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
         <Link className="about" to="/about">
           About
         </Link>
-        {isLoggedIn && <Link to="/profile">Profile</Link>}
+        {isLoggedIn && (
+          <>
+            <Link to="/profile">{user?.firstName} {user?.lastName}</Link>
+            <span></span> {/* Display user's first name and last name */}
+          </>
+        )}
       </div>
       <div className="navbar-right">
         {isLoggedIn ? (

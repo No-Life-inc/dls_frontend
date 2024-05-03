@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../utils/AuthContext";
 import { apiRequest } from "../api/apiFunctions";
+import { HttpMethod } from "../types/types";
 
 interface EditUserInfoProps {
     setIsEditing: (isEditing: boolean) => void; // Add setIsEditing prop
@@ -8,7 +9,7 @@ interface EditUserInfoProps {
 
   const EditUserInfo: React.FC<EditUserInfoProps> = ({ setIsEditing }) => {
 
-  const { user, setUser } = useContext(AuthContext); // Get user and setUser from context
+  const { user, setUser, token } = useContext(AuthContext); // Get user and setUser from context
 
   const [firstName, setFirstName] = useState(user?.firstName? user?.firstName : '');
   const [lastName, setLastName] = useState(user?.lastName? user?.lastName : '');
@@ -16,12 +17,12 @@ interface EditUserInfoProps {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (user?._id && user?.userGuid) { // Check if _id and userGuid are not undefined
+    if (user?.userGuid) { // Check if userGuid is not undefined
+      apiRequest("auth", `/update/${user.userGuid}`, HttpMethod.PUT, { firstName, lastName, email }, token)
       setUser({ ...user, firstName, lastName, email }); // Update user data in context
-      apiRequest("auth", `/update/${user.userGuid}`, "PUT", { firstName, lastName, email })
       setIsEditing(false);
     } else {
-      console.error("User _id or userGuid is undefined");
+      console.error("userGuid is undefined");
     }
   };
 
