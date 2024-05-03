@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 
 const RegisterComponent: React.FC = () => {
   const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    email: "",
-    password: "",
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Password: "",
     guid: uuidv4(), // Generating a unique GUID
   });
 
@@ -34,10 +34,10 @@ const RegisterComponent: React.FC = () => {
 
       setRegistrationComplete(true);
       setFormData({
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        Password: "",
         guid: uuidv4(),
       });
 
@@ -60,8 +60,8 @@ const RegisterComponent: React.FC = () => {
             <label>First Name:</label>
             <input
               type="text"
-              name="first_name"
-              value={formData.first_name}
+              name="FirstName"
+              value={formData.FirstName}
               onChange={handleChange}
               required
             />
@@ -70,8 +70,8 @@ const RegisterComponent: React.FC = () => {
             <label>Last Name:</label>
             <input
               type="text"
-              name="last_name"
-              value={formData.last_name}
+              name="LastName"
+              value={formData.LastName}
               onChange={handleChange}
               required
             />
@@ -80,8 +80,8 @@ const RegisterComponent: React.FC = () => {
             <label>Email:</label>
             <input
               type="email"
-              name="email"
-              value={formData.email}
+              name="Email"
+              value={formData.Email}
               onChange={handleChange}
               required
             />
@@ -90,8 +90,8 @@ const RegisterComponent: React.FC = () => {
             <label>Password:</label>
             <input
               type="password"
-              name="password"
-              value={formData.password}
+              name="Password"
+              value={formData.Password}
               onChange={handleChange}
               required
             />
