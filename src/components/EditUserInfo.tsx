@@ -17,12 +17,12 @@ interface EditUserInfoProps {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (user?.userGuid) { // Check if _id and userGuid are not undefined
-      setUser({ ...user, firstName, lastName, email }); // Update user data in context
+    if (user?.userGuid) { // Check if userGuid is not undefined
       apiRequest("auth", `/update/${user.userGuid}`, HttpMethod.PUT, { firstName, lastName, email }, token)
+      setUser({ ...user, firstName, lastName, email }); // Update user data in context
       setIsEditing(false);
     } else {
-      console.error("User _id or userGuid is undefined");
+      console.error("userGuid is undefined");
     }
   };
 

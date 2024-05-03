@@ -25,7 +25,6 @@ const ProfilePage: React.FC<ProfilePageProps> = ({ isLoggedIn }) => {
           <h2>Profile Page</h2>
           {userData ? (
             <div>
-              <p>User ID: {userData.id}</p>
               <button onClick={() => setIsEditing(true)}>Edit User Info</button> {/* Add Edit User Info button */}
               {isEditing && <EditUserInfo setIsEditing={setIsEditing} />} {/* Show EditUserInfo component when isEditing is true */}
             </div>

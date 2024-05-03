@@ -45,8 +45,8 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn, onLogout }) => {
         </Link>
         {isLoggedIn && (
           <>
-            <Link to="/profile">Profile</Link>
-            <span>{user?.firstName} {user?.lastName}</span> {/* Display user's first name and last name */}
+            <Link to="/profile">{user?.firstName} {user?.lastName}</Link>
+            <span></span> {/* Display user's first name and last name */}
           </>
         )}
       </div>
