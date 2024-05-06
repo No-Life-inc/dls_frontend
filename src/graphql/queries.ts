@@ -10,6 +10,11 @@ query GetAllStories {
     createdAt
     storyGuid
     user {
+      userInfo {
+        email
+        firstName
+        lastName
+      }
       userGuid
     }
     storyInfo {
@@ -27,6 +32,15 @@ query GetAllStories {
       commentInfo {
         bodyText
         createdAt
+      }
+      commentGuid
+      user {
+        userInfo {
+          firstName
+          email
+          lastName
+        }
+        userGuid
       }
     }
   }

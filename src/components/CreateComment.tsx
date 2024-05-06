@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {v4 as uuidv4} from 'uuid';
 import {Story} from "../types/types";
+import { AuthContext } from '../utils/AuthContext';
 
 const CreateComment = (story: Story) => {
     const [bodyText, setBodyText] = useState("");
+    const { token } = useContext(AuthContext); 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -17,13 +19,16 @@ const CreateComment = (story: Story) => {
             },
             story: {
                 storyGuid: story.storyGuid
-            }
+            },
+        
         }
-        console.log(newComment)
+        console.log('Sending request with comment:', newComment); // Log the comment being sent in the request
+
         fetch(`http://localhost:3000/v1/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
             body: JSON.stringify(newComment),
         })

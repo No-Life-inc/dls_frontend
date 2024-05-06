@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { AuthContext } from '../utils/AuthContext';
 //import { config } from 'dotenv';
 
 //config();
@@ -15,12 +16,14 @@ const CreateStory = () => {
   const [bodyText, setBodyText] = useState('');
   const [imgUrl, setImgUrl] = useState('');
   const [userGuid, setUserGuid] = useState('');
+  const { token } = useContext(AuthContext); 
 
 /***
  *  This function is called when the form is submitted. It sends a POST request to the REST API to create a new story.
  */
 const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
 
     const storyGuid = uuidv4();
 
@@ -37,11 +40,12 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         imgUrl: imgUrl,
       }
     }
-    console.log(newStory);
     fetch(`http://localhost:3000/v1/stories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+
       },
       body: JSON.stringify(newStory),
     })

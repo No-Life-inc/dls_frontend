@@ -6,6 +6,8 @@ import {AuthContext} from "../utils/AuthContext";
 import EditStory from './EditStory';
 import CreateComment from "./CreateComment";
 import {deleteStory} from '../api/apiFunctions';
+import { deleteComment } from '../api/apiFunctions'; // import the deleteComment function
+
 
 /***
  * This component displays a list of stories.
@@ -66,19 +68,43 @@ const DisplayStories = () => {
         }
       };
 
+    const handleDeleteComment = async (commentGuid: string) => {
+      try {
+        await deleteComment(commentGuid, token);
+        setStories(stories.map(story => ({
+          ...story,
+          comments: story.comments.filter(comment => comment.commentGuid !== commentGuid)
+        })));
+      } catch (error) {
+        console.error('Failed to delete comment:', error);
+      }
+    };
+      
+
     return (
       <div>
         <div>Display Stories Component</div>
         <ul>
           {stories.map((story: Story, index: number) => (
-              <li key={story.storyInfo.title}>
+            <li key={story.storyInfo.title}>
               {story.storyInfo.bodyText}
-              <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} /> {/* Display the image */}
+              <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} />
               <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
               {story.user && user && story.user.userGuid === user.userGuid.toLocaleUpperCase() && (
                 <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
-                )}
-              {commentFormVisibility[index] && <CreateComment {...story}  />}
+              )}
+              {commentFormVisibility[index] && <CreateComment {...story} />}
+              <ul>
+                {story.comments.map((comment) => {
+                  return (
+                  <li key={comment.commentGuid}>
+                    {comment.commentInfo && comment.commentInfo.bodyText}
+                    {comment.user && user && comment.user.userGuid === user.userGuid.toLocaleUpperCase() && (
+                      <button onClick={() => handleDeleteComment(comment.commentGuid)}>Delete Comment</button>
+                    )}
+                  </li>
+                )})}
+              </ul>
             </li>
           ))}
         </ul>

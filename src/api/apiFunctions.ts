@@ -35,7 +35,6 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
   }
 }
 
-
   export async function updateStory(storyGuid: string, bodyText: string, imgUrl: string, token: string | null = null) {
     try {
       const data = await apiRequest( "write",`/stories/${storyGuid}`, HttpMethod.PUT, {
@@ -55,6 +54,16 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
   export async function deleteStory(storyGuid: string, token: string | null = null) {
     try {
       const data = await apiRequest( "write",`/stories/${storyGuid}`, HttpMethod.DELETE, {}, token );
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
+  export async function deleteComment(commentGuid: string, token: string | null = null) {
+    try {
+      const data = await apiRequest("write", `/comments/${commentGuid}`, HttpMethod.DELETE, {}, token);
       return data;
     } catch (error) {
       console.error('Error:', error);

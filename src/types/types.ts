@@ -22,6 +22,7 @@ export type Comment={
     commentGuid: string,
     commentInfo: CommentInfo,
     createdAt: string,
+    user: User
 }
 
 export type CommentInfo={
@@ -43,6 +44,14 @@ export type User={
     userGuid: string,
     firstName: string,
     lastName: string,
+    email: string,
+    userIndo: UserInfo,
+}
+
+export type UserInfo={
+    firstName: string,
+    lastName: string,
+    imgUrl: string,
     email: string,
 }
 
