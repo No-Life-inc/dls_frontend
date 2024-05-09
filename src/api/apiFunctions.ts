@@ -70,3 +70,13 @@ export async function apiRequest(apiType: 'write' | 'auth', endpoint: string, me
       throw error;
     }
   }
+
+  export async function updateComment(commentGuid: string, body: { commentInfo: { bodyText: string } }, token: string | null = null) {
+    try {
+      const data = await apiRequest("write", `/comments/${commentGuid}`, HttpMethod.PUT, body, token); // Call apiRequest with 'PUT' method and provide body
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }

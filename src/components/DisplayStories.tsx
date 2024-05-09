@@ -1,24 +1,21 @@
-import React, {useState, useEffect, useContext} from "react";
-import {Story} from "../types/types";
-import {GETALLSTORIES} from "../graphql/queries";
-import {useQuery} from "@apollo/client";
-import {AuthContext} from "../utils/AuthContext";
-import EditStory from './EditStory';
+import React, { useState, useEffect, useContext } from "react";
+import { Story } from "../types/types";
+import { GETALLSTORIES } from "../graphql/queries";
+import { useQuery } from "@apollo/client";
+import { AuthContext } from "../utils/AuthContext";
+import EditStory from "./EditStory";
+import EditComment from "./EditComment";
 import CreateComment from "./CreateComment";
-import {deleteStory} from '../api/apiFunctions';
-import { deleteComment } from '../api/apiFunctions'; // import the deleteComment function
+import { deleteStory } from '../api/apiFunctions';
+import { deleteComment } from '../api/apiFunctions'; 
 
-
-/***
- * This component displays a list of stories.
-*/
 const DisplayStories = () => {
     const { user } = useContext(AuthContext);
     const { token, isLoggedIn } = useContext(AuthContext); 
 
     const cdnUrl = process.env.REACT_APP_CDNURL;
 
-    const {loading, error, data} = useQuery(GETALLSTORIES, {
+    const { loading, error, data } = useQuery(GETALLSTORIES, {
         context: {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -29,18 +26,28 @@ const DisplayStories = () => {
     const [stories, setStories] = useState<Story[]>([]);
     const [editingStory, setEditingStory] = useState<Story | null>(null);
     const [commentFormVisibility, setCommentFormVisibility] = useState<boolean[]>([]);
+    const [editCommentFormVisibility, setEditCommentFormVisibility] = useState<boolean[][]>([]); // New state
 
     useEffect(() => {
         if (data) {
             setStories(data.getAllStories);
-            setCommentFormVisibility(new Array(data.getAllStories.length).fill(false)); // Add this line
+            setCommentFormVisibility(new Array(data.getAllStories.length).fill(false));
+            setEditCommentFormVisibility(new Array(data.getAllStories.length).fill([])); // Initialize with empty arrays
         }
     }, [data, error]);
 
-    const toggleCommentForm = (index: number) => { // Add this function
+    const toggleCommentForm = (index: number) => {
         const newCommentFormVisibility = [...commentFormVisibility];
         newCommentFormVisibility[index] = !newCommentFormVisibility[index];
         setCommentFormVisibility(newCommentFormVisibility);
+    };
+
+    const toggleEditCommentForm = (storyIndex: number, commentIndex: number) => { // New function
+        const newEditCommentFormVisibility = [...editCommentFormVisibility];
+        const storyEditCommentFormVisibility = [...newEditCommentFormVisibility[storyIndex]];
+        storyEditCommentFormVisibility[commentIndex] = !storyEditCommentFormVisibility[commentIndex];
+        newEditCommentFormVisibility[storyIndex] = storyEditCommentFormVisibility;
+        setEditCommentFormVisibility(newEditCommentFormVisibility);
     };
 
     if (!isLoggedIn || !token) {
@@ -66,7 +73,7 @@ const DisplayStories = () => {
         } catch (error) {
           console.error('Failed to delete story:', error);
         }
-      };
+    };
 
     const handleDeleteComment = async (commentGuid: string) => {
       try {
@@ -80,40 +87,43 @@ const DisplayStories = () => {
       }
     };
       
-
     return (
       <div>
         <div>Display Stories Component</div>
         <ul>
-          {stories.map((story: Story, index: number) => (
+          {stories.map((story: Story, storyIndex: number) => (
             <li key={story.storyInfo.title}>
               {story.storyInfo.bodyText}
               <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} />
-              <button onClick={() => toggleCommentForm(index)}>Add Comment</button>
+              <button onClick={() => toggleCommentForm(storyIndex)}>Add Comment</button>
               {story.user && user && story.user.userGuid === user.userGuid.toLocaleUpperCase() && (
                 <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
               )}
-              {commentFormVisibility[index] && <CreateComment {...story} />}
+              {commentFormVisibility[storyIndex] && <CreateComment {...story} />}
               <ul>
-                {story.comments.map((comment) => {
+                {story.comments.map((comment, commentIndex) => {
                   return (
-                  <li key={comment.commentGuid}>
-                    {comment.commentInfo && comment.commentInfo.bodyText}
-                    {comment.user && user && comment.user.userGuid === user.userGuid.toLocaleUpperCase() && (
-                      <button onClick={() => handleDeleteComment(comment.commentGuid)}>Delete Comment</button>
-                    )}
-                  </li>
-                )})}
+                    <li key={comment.commentGuid}>
+                      {comment.commentInfo && comment.commentInfo.bodyText}
+                      {comment.user && user && comment.user.userGuid === user.userGuid.toLocaleUpperCase() && (
+                        <button onClick={() => handleDeleteComment(comment.commentGuid)}>Delete Comment</button>
+                      )}
+                      {comment.user && user && comment.user.userGuid === user.userGuid.toLocaleUpperCase() && (
+                        <button onClick={() => toggleEditCommentForm(storyIndex, commentIndex)}>Edit Comment</button> // Toggle edit comment form visibility
+                      )}
+                      {editCommentFormVisibility[storyIndex] && editCommentFormVisibility[storyIndex][commentIndex] && (
+                        <EditComment comment={comment} token={token} />
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           ))}
         </ul>
-          {editingStory && <EditStory story={editingStory}/>}
+        {editingStory && <EditStory story={editingStory} />}
       </div>
   );
 };
-
-
-DisplayStories.propTypes = {};
 
 export default DisplayStories;
