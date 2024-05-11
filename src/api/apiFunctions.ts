@@ -1,4 +1,4 @@
-import { HttpMethod, CreateStoryDTO } from "../types/types";
+import { HttpMethod, CreateStoryDTO, StoryInfo } from "../types/types";
 
 export async function apiRequest(
   apiType: "write" | "auth",
@@ -73,22 +73,21 @@ export async function submitStory(
 
 export async function updateStory(
   storyGuid: string,
-  bodyText: string,
-  imgUrl: string,
+  updatedStory: { storyInfo: Partial<StoryInfo>, image: string, fileType: string },
   token: string | null = null
 ) {
   try {
+    const body = {
+      storyInfo: updatedStory.storyInfo,
+      image: updatedStory.image,
+      fileType: updatedStory.fileType
+    };
+
     const data = await apiRequest(
       "write",
       `/stories/${storyGuid}`,
       HttpMethod.PUT,
-      {
-        storyGuid: storyGuid,
-        storyInfo: {
-          bodyText,
-          imgUrl,
-        },
-      },
+      body,
       token
     );
     return data;
