@@ -20,7 +20,7 @@ The repo is divided into folders with the respective responsibilities within the
 Create a .env in the root folder.
 
 - REACT_APP_GRAPHQLURL=http://localhost:4000/graphql
-- REACT_APP_WRITEAPIURL=http://localhost:3000
+- REACT_APP_WRITEAPIURL=http://localhost:3000/v1
 - REACT_APP_AUTHURL=http://localhost:5012/v1
 - REACT_APP_CDNURL=http://localhost:9000/images/
 - PORT=8080

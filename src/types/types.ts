@@ -67,3 +67,14 @@ export enum HttpMethod {
     PUT = "PUT",
     DELETE = "DELETE",
   }
+
+export interface CreateStoryDTO {
+        storyGuid: string;
+        createdAt: string;
+        storyInfo: {
+            title: string;
+            bodyText: string;
+        };
+        image: string; // Add missing type definition for base64data
+        fileType: string; 
+}

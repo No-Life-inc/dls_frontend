@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { AuthContext } from '../utils/AuthContext';
+import { submitStory } from '../api/apiFunctions';
 //import { config } from 'dotenv';
 
 //config();
@@ -14,54 +15,44 @@ import { AuthContext } from '../utils/AuthContext';
 const CreateStory = () => {
   const [title, setTitle] = useState('');
   const [bodyText, setBodyText] = useState('');
-  const [imgUrl, setImgUrl] = useState('');
-  const [userGuid, setUserGuid] = useState('');
+  const [image, setImage] = useState<File | null>(null);
+  const [fileType, setFileType] = useState<string | null>(null); // New state variable for file type
   const { token } = useContext(AuthContext); 
 
 /***
  *  This function is called when the form is submitted. It sends a POST request to the REST API to create a new story.
  */
-const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
 
     const storyGuid = uuidv4();
 
-    // Create a new story object
-    const newStory = {
-      storyGuid: storyGuid,
-      createdAt: new Date().toISOString(),
-      user: {
-        userGuid: userGuid,
-      },
-      storyInfo: {
-        title: title,
-        bodyText: bodyText,
-        imgUrl: imgUrl,
+    if (!image) {
+      alert('Please select an image');
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onloadend = async function() {
+      const base64Image = reader.result?.toString() || '';
+
+      const newStory = {
+        storyGuid: storyGuid,
+        createdAt: new Date().toISOString(),
+        storyInfo: {
+            title: title,
+            bodyText: bodyText,
+          },
+          image: base64Image,
+          fileType: fileType || "" // Add the file type to the new story object
+      };
+      try {
+        const data = await submitStory(newStory, token);
+        console.log('Success:', data);
+      } catch (error) {
+        console.error('Error:', error);
       }
     }
-    fetch(`http://localhost:3000/v1/stories`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-
-      },
-      body: JSON.stringify(newStory),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Handle the response data here
-        console.log('Success:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
   };
 
   /***
@@ -78,16 +69,16 @@ const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         <textarea value={bodyText} onChange={(e) => setBodyText(e.target.value)} />
       </label>
       <label>
-        Image URL:
-        <input type="text" value={imgUrl} onChange={(e) => setImgUrl(e.target.value)} />
-      </label>
-      <label>
-        User GUID:
-        <input type="text" value={userGuid} onChange={(e) => setUserGuid(e.target.value)} />
+        Image:
+        <input type="file" onChange={(e) => {
+          if (e.target.files) {
+            setImage(e.target.files[0]);
+            setFileType(e.target.files[0].type); // Save the file type
+          }
+        }} />
       </label>
       <input type="submit" value="Create Story" />
     </form>
   );
 };
-
-export default CreateStory;
+export default CreateStory; // Add this closing curly brace
