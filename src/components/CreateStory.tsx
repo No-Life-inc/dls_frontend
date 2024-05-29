@@ -1,31 +1,23 @@
 import React, { useContext, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+
 import { AuthContext } from '../utils/AuthContext';
 import { submitStory } from '../api/apiFunctions';
-//import { config } from 'dotenv';
 
-//config();
+type CreateStoryProps = {
+  storyGuid: string;
+};
 
-//const REST_API_URL = process.env.RESTAPIURL;
-
-/***
- * This component allows users to create a new story.
- * It contains a form with input fields for the story title, body text, image URL, and user GUID.
- */
-const CreateStory = () => {
+const CreateStory: React.FC<CreateStoryProps> = ({ storyGuid }) => {
   const [title, setTitle] = useState('');
   const [bodyText, setBodyText] = useState('');
   const [image, setImage] = useState<File | null>(null);
-  const [fileType, setFileType] = useState<string | null>(null); // New state variable for file type
+  const [fileType, setFileType] = useState<string | null>(null);
+  const [storyCreated, setStoryCreated] = useState(false); // New state variable
   const { token } = useContext(AuthContext); 
+ 
 
-/***
- *  This function is called when the form is submitted. It sends a POST request to the REST API to create a new story.
- */
-const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const storyGuid = uuidv4();
 
     if (!image) {
       alert('Please select an image');
@@ -44,20 +36,18 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
             bodyText: bodyText,
           },
           image: base64Image,
-          fileType: fileType || "" // Add the file type to the new story object
+          fileType: fileType || ""
       };
       try {
         const data = await submitStory(newStory, token);
         console.log('Success:', data);
+        setStoryCreated(true); // Set storyCreated to true when a story is successfully created
       } catch (error) {
         console.error('Error:', error);
       }
     }
   };
 
-  /***
-   *  This function returns a form that allows users to create a new story.
-   */
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -73,12 +63,14 @@ const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         <input type="file" onChange={(e) => {
           if (e.target.files) {
             setImage(e.target.files[0]);
-            setFileType(e.target.files[0].type); // Save the file type
+            setFileType(e.target.files[0].type);
           }
         }} />
       </label>
       <input type="submit" value="Create Story" />
+      {storyCreated && <p>Story created successfully!</p>} {/* Display a success message when a story is created */}
     </form>
   );
 };
-export default CreateStory; // Add this closing curly brace
+
+export default CreateStory;

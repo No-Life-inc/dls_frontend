@@ -51,7 +51,7 @@ export async function apiRequest(
 
 export async function submitStory(
   newStory: CreateStoryDTO,
-  token: string | null = null 
+  token: string | null = null,
 ) {
   try {
     console.log("story", newStory);
@@ -64,6 +64,25 @@ export async function submitStory(
       token
     );
 
+    return data;
+  } catch (error) {
+    console.error("Error:", error);
+    throw error;
+  }
+}
+
+export async function submitComment(
+  newComment: { commentGuid: string, commentInfo: { bodyText: string }, story: { storyGuid: string } },
+  token: string | null = null
+) {
+  try {
+    const data = await apiRequest(
+      "write",
+      "/comments",
+      HttpMethod.POST,
+      newComment,
+      token
+    );
     return data;
   } catch (error) {
     console.error("Error:", error);

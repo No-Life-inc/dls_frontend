@@ -1,16 +1,18 @@
 import React, {useContext, useState} from 'react';
-import {v4 as uuidv4} from 'uuid';
-import {Story} from "../types/types";
+import {Story, HttpMethod} from "../types/types";
 import { AuthContext } from '../utils/AuthContext';
+import { submitComment } from '../api/apiFunctions';
 
-const CreateComment = (story: Story) => {
+
+const CreateComment = ({story, commentGuid}: {story: Story, commentGuid: string}) => {
     const [bodyText, setBodyText] = useState("");
     const { token } = useContext(AuthContext); 
+    const [commentCreated, setCommentCreated] = useState(false); // New state variable
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const commentGuid = uuidv4();
 
         const newComment = {
             commentGuid: commentGuid,
@@ -22,39 +24,27 @@ const CreateComment = (story: Story) => {
             },
         
         }
-        console.log('Sending request with comment:', newComment); // Log the comment being sent in the request
 
-        fetch(`http://localhost:3000/v1/comments`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
-            },
-            body: JSON.stringify(newComment),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+        try{
+            const data = await submitComment(newComment, token);
+            if(data)
+                {
+                    setCommentCreated(true); // Set commentCreated to true when a comment is successfully created
                 }
-                return response.json();
-            })
-            .then((data) => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <label>
-                Comment Text:
-                <textarea value={bodyText} onChange={e => setBodyText(e.target.value)}/>
-            </label>
-            <button type="submit">Submit</button>
-        </form>
-    )
+        } catch (error) {
+            console.error('Error:', error);
+        }
+        }
+        return (
+            <form onSubmit={handleSubmit}>
+                <label>
+                    Comment Text:
+                    <textarea value={bodyText} onChange={e => setBodyText(e.target.value)}/>
+                </label>
+                <button type="submit">Submit</button>
+                {commentCreated && <p>Comment created successfully!</p>} {/* Display a success message when a comment is created */}
+            </form>
+        )
 }
 
 

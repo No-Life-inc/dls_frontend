@@ -30,7 +30,6 @@ class Frontpage extends Component<{}, State> {
             <div>
                 <h1>Hi</h1>
                 <DisplayStories/>
-                <CreateStory/>
             </div>
         );
     }

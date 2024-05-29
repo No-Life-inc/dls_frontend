@@ -8,10 +8,16 @@ import EditComment from "./EditComment";
 import CreateComment from "./CreateComment";
 import { deleteStory } from '../api/apiFunctions';
 import { deleteComment } from '../api/apiFunctions'; 
+import {v4 as uuidv4} from 'uuid';
+import CreateStory from "../components/CreateStory";
+
+
 
 const DisplayStories = () => {
     const { user } = useContext(AuthContext);
     const { token, isLoggedIn } = useContext(AuthContext); 
+    const [storyGuid, setStoryGuid] = useState(uuidv4()); // New state variable for story UUID
+    const [commentGuid, setCommentGuid] = useState(uuidv4()); // New state variable for comment UUID
 
     const cdnUrl = process.env.REACT_APP_CDNURL;
 
@@ -57,6 +63,7 @@ const DisplayStories = () => {
     if (loading) {
         return <p>"Loading..."</p>;
     }
+    
 
     if (error) {
         return <p>Error : {error.message}</p>;
@@ -66,14 +73,14 @@ const DisplayStories = () => {
         setEditingStory(story);
     };
 
-    const handleDelete = async (storyGuid: string) => {
-        try {
-          await deleteStory(storyGuid, token);
-          setStories(stories.filter(story => story.storyGuid !== storyGuid));
-        } catch (error) {
-          console.error('Failed to delete story:', error);
-        }
-    };
+    const handleDelete = async (storyGuidToDelete: string) => {
+      try {
+        await deleteStory(storyGuidToDelete, token);
+        setStories(stories.filter(story => story.storyGuid !== storyGuidToDelete));
+      } catch (error) {
+        console.error('Failed to delete story:', error);
+      }
+  };
 
     const handleDeleteComment = async (commentGuid: string) => {
       try {
@@ -97,9 +104,12 @@ const DisplayStories = () => {
               <img src={`${cdnUrl}${story.storyInfo.imgUrl}`} alt={story.storyInfo.title} />
               <button onClick={() => toggleCommentForm(storyIndex)}>Add Comment</button>
               {story.user && user && story.user.userGuid === user.userGuid.toLocaleUpperCase() && (
-                <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
+                <>
+                  <button onClick={() => handleDelete(story.storyGuid)}>Delete Story</button>
+                  <button onClick={() => handleEdit(story)}>Edit Story</button>
+                </>
               )}
-              {commentFormVisibility[storyIndex] && <CreateComment {...story} />}
+              {commentFormVisibility[storyIndex] && <CreateComment story={story} commentGuid={commentGuid}  />}
               <ul>
                 {story.comments.map((comment, commentIndex) => {
                   return (
@@ -122,6 +132,7 @@ const DisplayStories = () => {
           ))}
         </ul>
         {editingStory && <EditStory story={editingStory} />}
+        {storyGuid && <CreateStory storyGuid={storyGuid} />}
       </div>
   );
 };
